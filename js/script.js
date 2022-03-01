@@ -1,3 +1,4 @@
+// phone search area
 const searchPhone = () => {
    const searchField = document.getElementById('search-field');
    const searchText = searchField.value;
@@ -7,6 +8,7 @@ const searchPhone = () => {
    .then(res => res.json())
    .then(data => displaySearchResult(data.data.slice(0,20)));
 }
+// phone search result
 const displaySearchResult = phones => {
     const searchResult = document.getElementById('search-result');
     searchResult.textContent = '';
@@ -21,6 +23,7 @@ const displaySearchResult = phones => {
                 <h5 class="card-title">${phone.phone_name}</h5>
                 <p class="card-text">${phone.brand}</p>
             </div>
+            <button class="btn btn-outline-success w-75 mx-auto m-3">Explore</button>
         </div>
         `;
         searchResult.appendChild(div);
