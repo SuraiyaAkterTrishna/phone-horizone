@@ -1,84 +1,172 @@
-// phone search area
-const searchPhone = () => {
-   const searchField = document.getElementById('search-field');
-   const searchText = searchField.value;
-   searchField.value = '';
-   const phoneDetails = document.getElementById('phone-details');
-    phoneDetails.textContent = '';
-   const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`;
-   fetch(url)
-   .then(res => res.json())
-   .then(data => displaySearchResult(data.data.slice(0,20)));
-}
-// phone search result
-const displaySearchResult = phones => {
-    const searchResult = document.getElementById('search-result');
-    searchResult.textContent = '';
-    phones.forEach(phone => {
-        const div = document.createElement('div');
-        div.classList.add('col');
-        div.innerHTML = `
-        <div class="card h-100">
-            <img src="${phone.image}" class="mt-3 mx-auto d-block w-75" alt="phone-image">
-            <div class="card-body mx-5">
-                <h5 class="card-title">${phone.phone_name}</h5>
-                <p class="card-text">${phone.brand}</p>
-            </div>
-            <button onclick="loadPhoneDetails('${phone.slug}')" class="btn btn-outline-success w-75 mx-auto m-3">Explore</button>
-        </div>
-        `;
-        searchResult.appendChild(div);
-    });
-}
-//single phone details area
-const loadPhoneDetails = id => {
-    const url = `https://openapi.programming-hero.com/api/phone/${id}`;
-    fetch(url)
-    .then(res => res.json())
-    .then(data => displayPhoneDetails(data.data))
-}
-// display phone details 
-const displayPhoneDetails = phone => {
-    const phoneDetails = document.getElementById('phone-details');
-    phoneDetails.textContent = '';
-    const div = document.createElement('div');
-    div.classList.add('card');
-    div.innerHTML = `
-    <img src="${phone.image}" class="mt-3 mx-auto d-block" alt="phone-image">
-    <div class="card-body table-responsive">
-    <table class="table table-bordered table-hover">
-    <tbody>
-      <tr>
-        <th scope="row">Name:</th>
-        <td>${phone.name}</td>
-      </tr>
-      <tr>
-        <th scope="row">Release Date:</th>
-        <td>${phone.releaseDate?phone.releaseDate : 'No releade date found'}</td>
-      </tr>
-      <tr>
-        <th scope="row">Chipset:</th>
-        <td>${phone.mainFeatures.chipSet}</td>
-      </tr>
-      <tr>
-        <th scope="row">Display Size:</th>
-        <td>${phone.mainFeatures.displaySize}</td>
-      </tr>
-      <tr>
-        <th scope="row">Memory:</th>
-        <td>${phone.mainFeatures.memory}</td>
-      </tr>
-      <tr>
-        <th scope="row">Sensors:</th>
-        <td colspan="2" class="horizontal-align: middle">${phone.mainFeatures.sensors}</td>
-      </tr>
-      <tr>
-        <th scope="row">Storage:</th>
-        <td>${phone.mainFeatures.storage}</td>
-      </tr>
-    </tbody>
-  </table>
-    </div>`;
+// get document by id
+const searchResults = document.getElementById("search-results-area");
+const phoneDetails = document.getElementById("phone-details");
+//toggle spinner
+const toggleSpinner = value => {
+    document.getElementById("spinner").style.display = value;
+  }
+// get search value
+const findMobile = () => {
+  const searchField = document.getElementById("search-field");
+  const searchText = searchField.value.toLowerCase();
+  // clean previous error message
+  phoneDetails.textContent = "";
+  // clean previous search search results
+  searchResults.textContent = "";
+  // clean input field
+  searchField.value = "";
+  // display spinner
+  toggleSpinner('block');
 
+  if (searchText == "") {
+    // creating div for show error massage
+    const div = document.createElement("div");
+    div.innerHTML = `
+    <div class="alert alert-danger w-75 mx-auto text-center" role="alert">
+        There are no search value — please enter a value!
+    </div>
+    `;
     phoneDetails.appendChild(div);
-}
+    // hide spinner
+    toggleSpinner('none');
+  } else {
+    const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`;
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => displayPhones(data.data.slice(0,20)));
+  }
+};
+
+// display all search phones
+const displayPhones = (phones) => {
+  // Error handling for missing phones
+  if (phones.length === 0) {
+    // creating div for show error massage
+    const div = document.createElement("div");
+    div.innerHTML = `
+    <div class="alert alert-danger w-75 mx-auto text-center" role="alert">
+        There are no phone available — check it out!
+    </div>
+    `;
+    phoneDetails.appendChild(div);
+    // hide spinner
+    toggleSpinner('none');
+  } else {
+    // creating div for show all searching phones dynamically
+    phones.forEach((phone) => {
+      const div = document.createElement("div");
+      div.classList.add("col");
+      div.innerHTML = `
+              <div class="card h-100">
+                  <img src="${phone.image}" class="mt-3 mx-auto d-block w-75" alt="" />
+                  <div class="card-body mx-5 text-center">
+                      <h4 class="card-title">${phone.phone_name}</h4>
+                      <p class="card-text">
+                        Brand Name - <span class="fw-bold">${phone.brand}</span>
+                      </p>
+                  </div>
+                  <a href="#phone-details" onclick="loadPhoneDetails('${phone.slug}')" class="btn btn-outline-success w-75 mx-auto m-3">Details</a>
+              </div>
+          `;
+      searchResults.appendChild(div);
+      // hide spinner
+      toggleSpinner('none');
+    });
+  }
+};
+
+// get specific phone details
+const loadPhoneDetails = (id) => {
+  // // get api from phone id
+  const url = `https://openapi.programming-hero.com/api/phone/${id}`;
+  fetch(url)
+    .then((res) => res.json())
+    .then((data) => displayPhoneDetails(data.data));
+};
+
+// display details for specific phone
+const displayPhoneDetails = (phone) => {
+  const phoneDetails = document.getElementById("phone-details");
+  // cleaning previous phone details
+  phoneDetails.textContent = "";
+  // creating div for show specific phone dynamically
+  const div = document.createElement("div");
+  div.classList.add("card");
+  div.classList.add("col-md-10");
+  div.classList.add("mx-auto");
+  div.innerHTML = `
+        <img src="${phone.image}" class="mt-3 mx-auto d-block w-75" alt="" />
+        <div class="card-body">
+            <h1 class="card-title">${phone.name} Full Specifications</h1>
+            <div class="table-responsive-sm">
+            <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <td>First Release</td>
+                    <td>${
+                      phone.releaseDate
+                        ? phone.releaseDate
+                        : "Release date not found"
+                    }</td>
+                </tr>
+                <tr class="bg-secondary bg-opacity-10">
+                    <th>Main Features</th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <td>Storage</td>
+                    <td>${phone.mainFeatures.storage}</td>
+                </tr>
+                <tr>
+                    <td>ChipSet</td>
+                    <td>${phone.mainFeatures.chipSet}</td>
+                </tr>
+                <tr>
+                    <td>Display Size</td>
+                    <td>${phone.mainFeatures.displaySize}</td>
+                </tr>
+                <tr>
+                    <td>Memory</td>
+                    <td>${phone.mainFeatures.memory}</td>
+                </tr>
+                <tr>
+                    <td>Sensors</td>
+                    <td>${phone.mainFeatures.sensors}</td>
+                </tr>
+                <tr class="bg-secondary bg-opacity-10">
+                    <th>Others</th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <td>Bluetooth</td>
+                    <td>${phone?.others?.Bluetooth != undefined ? phone.others.Bluetooth : 'Bluetooth not found!'}</td>
+                </tr>
+                <tr>
+                    <td>GPS</td>
+                    <td>${phone?.others?.GPS != undefined ? phone.others.GPS : 'GPS not found!'}</td>
+                </tr>
+                <tr>
+                    <td>NFC</td>
+                    <td>${phone?.others?.NFC != undefined ? phone.others.NFC : 'NFC not found!'}</td>
+                </tr>
+                <tr>
+                    <td>Radio</td>
+                    <td>${phone?.others?.Radio != undefined ? phone.others.Radio : 'Radio not found!'}</td>
+                </tr>
+                <tr>
+                    <td>USB</td>
+                    <td>${phone?.others?.USB != undefined ? phone.others.USB : 'USB not found!'}</td>
+                </tr>
+                <tr>
+                    <td>WLAN</td>
+                    <td>${phone?.others?.WLAN != undefined ? phone.others.WLAN : 'WLAN not found!'}</td>
+                </tr>
+            </tbody>
+        </table>
+            </div>
+        </div>
+    `;
+  phoneDetails.appendChild(div);
+  // hide spinner
+  toggleSpinner('none');
+};
