@@ -96,69 +96,69 @@ const displayPhoneDetails = (phone) => {
   div.innerHTML = `
         <img src="${phone.image}" class="mt-3 mx-auto d-block w-75" alt="" />
         <div class="card-body">
-            <h1 class="card-title">${phone.name} Full Specifications</h1>
-            <div class="table-responsive-sm">
+          <h1 class="card-title">${phone.name} Full Specifications</h1>
+          <div class="table-responsive">
             <table class="table table-bordered">
-            <tbody>
-                <tr>
-                    <td>First Release</td>
-                    <td>${phone.releaseDate ? phone.releaseDate  : "Release date not found!"}<td>
-                </tr>
-                <tr class="bg-secondary bg-opacity-10">
-                    <th>Main Features</th>
-                    <th></th>
-                </tr>
-                <tr>
-                    <td>Storage</td>
-                    <td>${phone.mainFeatures.storage}</td>
-                </tr>
-                <tr>
-                    <td>ChipSet</td>
-                    <td>${phone.mainFeatures.chipSet}</td>
-                </tr>
-                <tr>
-                    <td>Display Size</td>
-                    <td>${phone.mainFeatures.displaySize}</td>
-                </tr>
-                <tr>
-                    <td>Memory</td>
-                    <td>${phone.mainFeatures.memory}</td>
-                </tr>
-                <tr>
-                    <td>Sensors</td>
-                    <td>${phone.mainFeatures.sensors}</td>
-                </tr>
-                <tr class="bg-secondary bg-opacity-10">
-                    <th>Others</th>
-                    <th></th>
-                </tr>
-                <tr>
-                    <td>Bluetooth</td>
-                    <td>${phone?.others?.Bluetooth != undefined ? phone.others.Bluetooth : 'Bluetooth not found!'}</td>
-                </tr>
-                <tr>
-                    <td>GPS</td>
-                    <td>${phone?.others?.GPS != undefined ? phone.others.GPS : 'GPS not found!'}</td>
-                </tr>
-                <tr>
-                    <td>NFC</td>
-                    <td>${phone?.others?.NFC != undefined ? phone.others.NFC : 'NFC not found!'}</td>
-                </tr>
-                <tr>
-                    <td>Radio</td>
-                    <td>${phone?.others?.Radio != undefined ? phone.others.Radio : 'Radio not found!'}</td>
-                </tr>
-                <tr>
-                    <td>USB</td>
-                    <td>${phone?.others?.USB != undefined ? phone.others.USB : 'USB not found!'}</td>
-                </tr>
-                <tr>
-                    <td>WLAN</td>
-                    <td>${phone?.others?.WLAN != undefined ? phone.others.WLAN : 'WLAN not found!'}</td>
-                </tr>
-            </tbody>
-        </table>
-            </div>
+              <tbody>
+              <tr>
+              <td>First Release</td>
+              <td>${phone.releaseDate ? phone.releaseDate  : "Release date not found!"}</td>
+          </tr>
+          <tr class="bg-secondary bg-opacity-10">
+              <td>Main Features</td>
+              <td></td>
+          </tr>
+          <tr>
+              <td>Storage</td>
+              <td>${phone.mainFeatures.storage}</td>
+          </tr>
+          <tr>
+              <td>ChipSet</td>
+              <td>${phone.mainFeatures.chipSet}</td>
+          </tr>
+          <tr>
+              <td>Display Size</td>
+              <td>${phone.mainFeatures.displaySize}</td>
+          </tr>
+          <tr>
+              <td>Memory</td>
+              <td>${phone.mainFeatures.memory}</td>
+          </tr>
+          <tr>
+              <td>Sensors</td>
+              <td>${phone.mainFeatures.sensors}</td>
+          </tr>
+          <tr class="bg-secondary bg-opacity-10">
+              <td>Others</td>
+              <td></td>
+          </tr>
+          <tr>
+              <td>Bluetooth</td>
+              <td>${phone?.others?.Bluetooth != undefined ? phone.others.Bluetooth : 'Bluetooth not found!'}</td>
+          </tr>
+          <tr>
+              <td>GPS</td>
+              <td>${phone?.others?.GPS != undefined ? phone.others.GPS : 'GPS not found!'}</td>
+          </tr>
+          <tr>
+              <td>NFC</td>
+              <td>${phone?.others?.NFC != undefined ? phone.others.NFC : 'NFC not found!'}</td>
+          </tr>
+          <tr>
+              <td>Radio</td>
+              <td>${phone?.others?.Radio != undefined ? phone.others.Radio : 'Radio not found!'}</td>
+          </tr>
+          <tr>
+              <td>USB</td>
+              <td>${phone?.others?.USB != undefined ? phone.others.USB : 'USB not found!'}</td>
+          </tr>
+          <tr>
+              <td>WLAN</td>
+              <td>${phone?.others?.WLAN != undefined ? phone.others.WLAN : 'WLAN not found!'}</td>
+          </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
     `;
   phoneDetails.appendChild(div);
