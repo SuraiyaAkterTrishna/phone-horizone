@@ -3,15 +3,15 @@ const searchResults = document.getElementById("search-results-area");
 const phoneDetails = document.getElementById("phone-details");
 //toggle spinner
 const toggleSpinner = value => {
-    document.getElementById("spinner").style.display = value;
-  }
+  document.getElementById("spinner").style.display = value;
+}
 // get search value
 const findMobile = () => {
   const searchField = document.getElementById("search-field");
   const searchText = searchField.value.toLowerCase();
   // clean previous error message
   phoneDetails.textContent = "";
-  // clean previous search search results
+  // clean previous search results
   searchResults.textContent = "";
   // clean input field
   searchField.value = "";
@@ -33,7 +33,7 @@ const findMobile = () => {
     const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`;
     fetch(url)
       .then((response) => response.json())
-      .then((data) => displayPhones(data.data.slice(0,20)));
+      .then((data) => displayPhones(data.data.slice(0, 20)));
   }
 };
 
@@ -52,22 +52,22 @@ const displayPhones = (phones) => {
     // hide spinner
     toggleSpinner('none');
   } else {
-    // creating div for show all searching phones dynamically
+    // show all searching phones dynamically
     phones.forEach((phone) => {
       const div = document.createElement("div");
       div.classList.add("col");
       div.innerHTML = `
-              <div class="card h-100">
-                  <img src="${phone.image}" class="mt-3 mx-auto d-block w-75" alt="" />
-                  <div class="card-body mx-5 text-center">
-                      <h4 class="card-title">${phone.phone_name}</h4>
-                      <p class="card-text">
-                        Brand Name - <span class="fw-bold">${phone.brand}</span>
-                      </p>
-                  </div>
-                  <a href="#phone-details" onclick="loadPhoneDetails('${phone.slug}')" class="btn btn-outline-success w-75 mx-auto m-3">Details</a>
-              </div>
-          `;
+        <div class="card h-100">
+            <img src="${phone.image}" class="mt-3 mx-auto d-block w-75" alt="" />
+            <div class="card-body mx-5 text-center">
+                <h4 class="card-title">${phone.phone_name}</h4>
+                <p class="card-text">
+                  Brand: <span class="fw-bold">${phone.brand}</span>
+                </p>
+            </div>
+            <a href="#phone-details" onclick="loadPhoneDetails('${phone.slug}')" class="btn btn-outline-success w-75 mx-auto m-3">Details</a>
+        </div>
+      `;
       searchResults.appendChild(div);
       // hide spinner
       toggleSpinner('none');
@@ -77,7 +77,7 @@ const displayPhones = (phones) => {
 
 // get specific phone details
 const loadPhoneDetails = (id) => {
-  // // get api from phone id
+  // get api from phone id
   const url = `https://openapi.programming-hero.com/api/phone/${id}`;
   fetch(url)
     .then((res) => res.json())
@@ -86,7 +86,6 @@ const loadPhoneDetails = (id) => {
 
 // display details for specific phone
 const displayPhoneDetails = (phone) => {
-  const phoneDetails = document.getElementById("phone-details");
   // cleaning previous phone details
   phoneDetails.textContent = "";
   // creating div for show specific phone dynamically
@@ -103,11 +102,7 @@ const displayPhoneDetails = (phone) => {
             <tbody>
                 <tr>
                     <td>First Release</td>
-                    <td>${
-                      phone.releaseDate
-                        ? phone.releaseDate
-                        : "Release date not found"
-                    }</td>
+                    <td>${phone.releaseDate ? phone.releaseDate  : "Release date not found!"}<td>
                 </tr>
                 <tr class="bg-secondary bg-opacity-10">
                     <th>Main Features</th>
